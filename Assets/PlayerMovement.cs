@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
 	Vector3 velocity;
 	bool isGrounded;
 
+	//timer variables
+	public float coolDownTime = 2f;
+
+	private float nextFireTime = 0f;
+
+
 
 	// Update is called once per frame
 	void Update()
@@ -33,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
 
 		Vector3 move = transform.right * x + transform.forward * z;
 
+		Debug.Log(nextFireTime)
+
 		controller.Move(move * speed * Time.deltaTime);
 
 		if (Input.GetKey("space") && isGrounded)
@@ -43,7 +51,21 @@ public class PlayerMovement : MonoBehaviour
 
 		controller.Move(velocity * Time.deltaTime);
 
-
-
+		if (Time.time > nextFireTime)
+        {
+			Debug.Log("ready to Fire");
+			if (Input.GetKey("v"))
+			{
+				Debug.Log("v");
+				prevSpeedHolder = speed;
+				speed = 400f;
+				speed = prevSpeedHolder
+				nextFireTime = Time.time + coolDownTime;
+			}
+		}
+		Debug.Log(nextFireTime);
 	}
+
+
+
 }
