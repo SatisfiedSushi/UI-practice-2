@@ -19,12 +19,13 @@ public class PlayerMovement : MonoBehaviour
 	bool isGrounded;
 
 	//timer variables
-	public float coolDownTime = 2f;
+	public float coolDownTimer;
 
-	private float nextFireTime = 0f;
+	private float coolDown = 10;
 
+	public float abilityTimer;
 
-
+	public float abilityTimerHolder = 1;
 	// Update is called once per frame
 	void Update()
 	{
@@ -39,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
 
 		Vector3 move = transform.right * x + transform.forward * z;
 
-		Debug.Log(nextFireTime)
 
 		controller.Move(move * speed * Time.deltaTime);
 
@@ -51,21 +51,41 @@ public class PlayerMovement : MonoBehaviour
 
 		controller.Move(velocity * Time.deltaTime);
 
-		if (Time.time > nextFireTime)
-        {
-			Debug.Log("ready to Fire");
-			if (Input.GetKey("v"))
-			{
-				Debug.Log("v");
-				prevSpeedHolder = speed;
-				speed = 400f;
-				speed = prevSpeedHolder
-				nextFireTime = Time.time + coolDownTime;
-			}
+		if (coolDownTimer > 0)
+		{
+			coolDownTimer -= Time.deltaTime;
 		}
-		Debug.Log(nextFireTime);
+		
+		if (coolDownTimer < 0)
+        {
+			coolDownTimer = 0;
+        }
+
+		if (Input.GetKeyDown("v") && coolDownTimer == 0)
+        {
+			Debug.Log("hi");
+			Dash();
+			coolDownTimer = coolDown;
+			speed = 100f;
+		}
+
+		if (coolDownTimer <= 8)
+		{
+
+			speed = 8f;
+
+		}
+
 	}
 
+	private void Dash()
+	{
+		
+		
+		
+
+		
+	}
 
 
 }
